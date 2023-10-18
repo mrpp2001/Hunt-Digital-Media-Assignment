@@ -10,21 +10,6 @@ const expectedDRR = document.getElementById("expectedDRR");
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 
-// const addNew = document.getElementById("addNew");
-// const dataInput = document.getElementById("dataInput");
-
-const newAction = document.getElementById("newAction");
-const newId = document.getElementById("newId");
-const newStartDate = document.getElementById("newStartDate");
-const newEndDate = document.getElementById("newEndDate");
-const newMonthYear = document.getElementById("newMonthYear");
-const newDatesExcluded = document.getElementById("newDatesExcluded");
-const newNumberOfDays = document.getElementById("newNumberOfDays");
-const newLeadCount = document.getElementById("newLeadCount");
-const newExpectedDRR = document.getElementById("newExpectedDRR");
-const lastUpdate = document.getElementById("lastUpdate");
-
-
 // Calculate Dates
 const dateCalculated = () => {
   let inputStartDate = new Date(startDate.value);
@@ -95,20 +80,6 @@ const handleExcludedDates = () => {
 endDate.addEventListener("change", dateCalculated);
 datesExcluded.addEventListener("change", handleExcludedDates);
 
-// Assuming you have already gathered the new data to be added to the JSON file
-const newData = {
-  action: newAction.textContent,
-  id: newId.textContent,
-  startDate: newStartDate.textContent,
-  endDate: newEndDate.textContent,
-  monthYear: newMonthYear.textContent,
-  datesExcluded: newDatesExcluded.textContent,
-  numberOfDays: newNumberOfDays.textContent,
-  leadCount: newLeadCount.textContent,
-  expectedDRR: newExpectedDRR.textContent,
-  lastUpdate: lastUpdate.textContent,
-};
-
 saveBtn.addEventListener("click", function () {
   const actionValue = document.getElementById("action").value;
   const idValue = id.value;
@@ -144,26 +115,6 @@ saveBtn.addEventListener("click", function () {
     storedData.push(newData);
     localStorage.setItem("storedData", JSON.stringify(storedData));
 
-    // Display the new data in the table immediately
-    const table = document.querySelector("tbody");
-    const secondRow = table.children[1]; // Finding the second row
-    const newRow = document.createElement("tr");
-    newRow.innerHTML = `
-<td data-th="Action"><p>${actionValue}</p></td>
-<td data-th="ID"><p>${idValue}</p></td>
-<td data-th="Start Date"><p>${startDateValue}</p></td>
-<td data-th="End Date"><p>${endDateValue}</p></td>
-<td data-th="Month, Year"><p>${item.monthYear}</p></td>
-<td data-th="Dates Excluded"><p>${datesExcludedValue}</p></td>
-<td data-th="Number of Days"><p>${item.numberOfDays}</p></td>
-<td data-th="Lead Count"><p>${leadCountValue}</p></td>
-<td data-th="Expected DRR"><p>${expectedDRRValue}</p></td>
-<td data-th="Last Updated"><p>${newData.lastUpdate}</p></td>
-`;
-    // Inserting the new row after the second row
-    table.insertBefore(newRow, secondRow.nextElementSibling);
-
-
     // Reset values to default or empty states
     id.value = "0";
     startDate.value = "";
@@ -180,6 +131,7 @@ saveBtn.addEventListener("click", function () {
     // Handle case where not all fields are filled
     alert("Please fill out all the information before submitting.");
   }
+
 });
 
 // Retrieving data from local storage and displaying it on the page
@@ -208,6 +160,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 // Define the clear function
