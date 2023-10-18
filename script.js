@@ -10,6 +10,9 @@ const expectedDRR = document.getElementById("expectedDRR");
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 
+
+let excludedDatesArray = [];
+
 // Calculate Dates
 const dateCalculated = () => {
   let inputStartDate = new Date(startDate.value);
@@ -55,8 +58,7 @@ const dateCalculated = () => {
   monthYear.textContent = result;
 };
 
-let excludedDatesArray = [];
-
+// Exclude dates from the calculation
 const handleExcludedDates = () => {
   let excludedDates = datesExcluded.value;
   // Split the string by commas to get individual dates
@@ -77,9 +79,7 @@ const handleExcludedDates = () => {
   numberOfDays.textContent = excludedDatesArray.length;
 };
 
-endDate.addEventListener("change", dateCalculated);
-datesExcluded.addEventListener("change", handleExcludedDates);
-
+// Save Button
 saveBtn.addEventListener("click", function () {
   const actionValue = document.getElementById("action").value;
   const idValue = id.value;
@@ -88,8 +88,9 @@ saveBtn.addEventListener("click", function () {
   const datesExcludedValue = excludedDatesArray;
   const leadCountValue = leadCount.value;
   const expectedDRRValue = expectedDRR.value;
+  const monthYearValue = monthYear.textContent; 
+  const numberOfDaysValue = excludedDatesArray.length; 
 
-  clearFunction();
   if (
     idValue &&
     startDateValue &&
@@ -107,8 +108,12 @@ saveBtn.addEventListener("click", function () {
       datesExcluded: datesExcludedValue,
       leadCount: leadCountValue,
       expectedDRR: expectedDRRValue,
+      monthYear: monthYearValue, 
+      numberOfDays: numberOfDaysValue, 
       lastUpdate: new Date().toLocaleString(),
     };
+
+    clearFunction();
 
     // Save the new data to local storage and display immediately
     let storedData = JSON.parse(localStorage.getItem("storedData")) || [];
@@ -131,8 +136,8 @@ saveBtn.addEventListener("click", function () {
     // Handle case where not all fields are filled
     alert("Please fill out all the information before submitting.");
   }
-
 });
+
 
 // Retrieving data from local storage and displaying it on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -159,9 +164,8 @@ window.addEventListener("DOMContentLoaded", () => {
       table.insertBefore(newRow, secondRow.nextElementSibling);
     });
   }
+  return;
 });
-
-
 
 // Define the clear function
 const clearFunction = () => {
@@ -178,5 +182,7 @@ const clearFunction = () => {
   excludedDatesArray = [];
 };
 
-// Attach the clear function to the cancel button
+// Calling functions
 cancelBtn.addEventListener("click", clearFunction);
+endDate.addEventListener("change", dateCalculated);
+datesExcluded.addEventListener("change", handleExcludedDates);
