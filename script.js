@@ -132,6 +132,9 @@ saveBtn.addEventListener("click", function () {
 
     // Reset excludedDatesArray
     excludedDatesArray = [];
+
+     // Refresh the page
+     location.reload();
   } else {
     // Handle case where not all fields are filled
     alert("Please fill out all the information before submitting.");
