@@ -106,22 +106,20 @@
 /* Basic Styling */
 body {
   background: #4b79a1;
-  background: -webkit-linear-gradient(to left, #4b79a1, #283e51);
+  background: -webkit-gradient(linear, right top, left top, from(#4b79a1), to(#283e51));
+  background: -o-linear-gradient(right, #4b79a1, #283e51);
   background: linear-gradient(to left, #4b79a1, #283e51);
 }
 
-/* 
-#dataInput{
-  display: none;
-}
-
-#dataInput td {
-  display: inline-block; 
-} */
 
 .btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .btns i {
@@ -136,7 +134,9 @@ button {
   border-radius: 5px;
   border: none;
   color: #fff;
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 #saveBtn {
@@ -195,15 +195,19 @@ input {
 }
 @keyframes leftRight {
   0% {
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
   25% {
-    transform: translateX(-10px);
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
   }
   75% {
-    transform: translateX(10px);
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
   }
   100% {
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 }
