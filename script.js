@@ -10,7 +10,6 @@ const expectedDRR = document.getElementById("expectedDRR");
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 
-
 let excludedDatesArray = [];
 
 // Calculate Dates
@@ -18,45 +17,44 @@ const dateCalculated = () => {
   let inputStartDate = new Date(startDate.value);
   let inputEndDate = new Date(endDate.value);
 
+  if (inputStartDate.getTime() === inputEndDate.getTime()) {
+    // Return 0 if the start and end dates are the same
+    monthYear.textContent = "0";
+    return;
+  }
+
+  if (inputStartDate.getTime() > inputEndDate.getTime()) {
+    // Show 0 if the start date is after the end date
+    monthYear.textContent = "0";
+    return;
+  }
   let months = (inputEndDate.getFullYear() - inputStartDate.getFullYear()) * 12;
-  months -= inputStartDate.getMonth() + 1;
-  months += inputEndDate.getMonth();
+  months -= inputStartDate.getMonth();
+  months += inputEndDate.getMonth() + 1;
 
   let years = Math.floor(months / 12);
   let remainingMonths = months % 12;
 
   let result;
   if (years < 1) {
-    if (remainingMonths < 1) {
-      result = "0";
-    } else if (remainingMonths > 1) {
-      result =
-        remainingMonths > 2
-          ? remainingMonths + " Months"
-          : remainingMonths + " Month";
-    } else {
-      result = remainingMonths + " Month";
-    }
+    result =
+      remainingMonths > 1
+        ? `${remainingMonths} Months`
+        : `${remainingMonths} Month`;
   } else {
     if (remainingMonths < 1) {
-      if (years > 1) {
-        result = years > 2 ? years + " Years" : years + " Year";
-      } else {
-        result = years + " Year";
-      }
+      result = years > 1 ? `${years} Years` : `${years} Year`;
     } else {
-      if (years > 1) {
-        result =
-          years > 2
-            ? years + " Years " + " & " + remainingMonths + " Months"
-            : years + " Years " + " & " + remainingMonths + " Month";
-      } else {
-        result = years + " Year " + " & " + remainingMonths + " Month";
-      }
+      result =
+        years > 1
+          ? `${years} Years & ${remainingMonths} Months`
+          : `${years} Year & ${remainingMonths} Month`;
     }
   }
   monthYear.textContent = result;
 };
+
+endDate.addEventListener("change", dateCalculated);
 
 // Exclude dates from the calculation
 const handleExcludedDates = () => {
@@ -88,8 +86,8 @@ saveBtn.addEventListener("click", function () {
   const datesExcludedValue = excludedDatesArray;
   const leadCountValue = leadCount.value;
   const expectedDRRValue = expectedDRR.value;
-  const monthYearValue = monthYear.textContent; 
-  const numberOfDaysValue = excludedDatesArray.length; 
+  const monthYearValue = monthYear.textContent;
+  const numberOfDaysValue = excludedDatesArray.length;
 
   if (
     idValue &&
@@ -108,8 +106,8 @@ saveBtn.addEventListener("click", function () {
       datesExcluded: datesExcludedValue,
       leadCount: leadCountValue,
       expectedDRR: expectedDRRValue,
-      monthYear: monthYearValue, 
-      numberOfDays: numberOfDaysValue, 
+      monthYear: monthYearValue,
+      numberOfDays: numberOfDaysValue,
       lastUpdate: new Date().toLocaleString(),
     };
 
@@ -133,14 +131,13 @@ saveBtn.addEventListener("click", function () {
     // Reset excludedDatesArray
     excludedDatesArray = [];
 
-     // Refresh the page
-     location.reload();
+    // Refresh the page
+    location.reload();
   } else {
     // Handle case where not all fields are filled
     alert("Please fill out all the information before submitting.");
   }
 });
-
 
 // Retrieving data from local storage and displaying it on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -187,5 +184,4 @@ const clearFunction = () => {
 
 // Calling functions
 cancelBtn.addEventListener("click", clearFunction);
-endDate.addEventListener("change", dateCalculated);
 datesExcluded.addEventListener("change", handleExcludedDates);
